@@ -3,7 +3,7 @@ Scrape search results for given keywords for L2 Coding challenge
 
 Created by Jibben Hillen
 
-This python script will scrape through walmart queries and extract data about the product. It has been coded to work for cereals (the only hard-coding for this revolves around brand labeling, because Walmart's database doesn't have very good brand labeling), but it should generally work for any given walmart search.
+This python script will scrape through the first page of a walmart query and extract data about the products displayed. It has been coded to work for cereals (the only hard-coding for this revolves around brand labeling, because Walmart's database doesn't have very good brand labeling), but it should generally work for any given walmart search.
 
 Usage:
 python walmart_scrape.py \<keyword\> \<optional additional keywords\> ... \<output filename\>

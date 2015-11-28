@@ -15,14 +15,8 @@ BASE_URL = "http://www.walmart.com"
 FIELDS = ["query", "date", "ranking", "brand", "name",
           "price", "num_reviews", "rating"]
 
-# function to return a soup from a base and a query
-def get_query_soup(base, query):
-    url = urllib2.urlopen(base + "/search/?query=" + query)
-    soup = bs4.BeautifulSoup(url.read(), "html.parser")
-    return soup
-
 # function to return a soup from a base and page link
-def get_page_soup(base, link):
+def get_soup(base, link):
     url = urllib2.urlopen(base + link)
     soup = bs4.BeautifulSoup(url.read(), "html.parser")
     return soup
@@ -91,7 +85,7 @@ def build_list(soup, query):
     rank = 1
     for prod in products:
         url = prod.find('a').get('href')
-        prod_soup = get_page_soup(BASE_URL, url)
+        prod_soup = get_soup(BASE_URL, url)
         prod_info = build_dict(prod_soup, rank)
         prod_info["query"] = query
         prod_info["date"] = date.today().strftime("%Y-%m-%d")
@@ -126,21 +120,21 @@ def list_to_CSV(list, fieldnames, filename):
 
 def main():
 
-    # get number of searches, if usage incorrect print and exit
     num_args = len(sys.argv)
     # if no additional arguments are given, pretend as if the following are:
     # walmart_scrape.py cereal cold+cereal walmart.csv
     if(num_args == 1):
         # first do for cereal
-        soup = get_query_soup(BASE_URL, "cereal")
+        soup = get_soup(BASE_URL, "/search/?query=cereal")
         products = build_list(soup, "cereal")
         list_to_CSV(products, FIELDS, "walmart.csv")
 
         # then for cold cereal
-        soup = get_quert_soup(BASE_URL, "cold+cereal")
+        soup = get_soup(BASE_URL, "/search/?query=cold+cereal")
         products = build_list(soup, "cold+cereal")
         list_to_CSV(products, FIELDS, "walmart.csv")
 
+    # if usage incorrect print and exit
     elif(num_args == 2):
         print("Usage: " + sys.argv[0] + " <keyword>" +
               " <additional keywords> ... <output filename>")
@@ -149,7 +143,7 @@ def main():
     else:
         # for every search given, do scraping and add to CSV given
         for i in range(0,num_args - 2):
-            soup = get_query_soup(BASE_URL, sys.argv[i+1])
+            soup = get_soup(BASE_URL, "/search/?query=" + sys.argv[i+1])
             products = build_list(soup, sys.argv[i+1])
             list_to_CSV(products, FIELDS, sys.argv[num_args-1])
 

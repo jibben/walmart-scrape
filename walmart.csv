@@ -1,0 +1,41 @@
+"query","date","ranking","brand","name","price","num_reviews","rating"
+"cereal","2015-11-28",1,"Cheerios","Honey Nut Cheerios Gluten Free Cereal, 26.6 oz",4.48,203,4.8
+"cereal","2015-11-28",2,"Kellogg's","Kellogg's Frosted Flakes Cereal, 33 oz",4.58,115,4.7
+"cereal","2015-11-28",3,"Post","Post Honey Bunches of Oats With Crispy Almonds Cereal, 27 oz",3.98,44,4.8
+"cereal","2015-11-28",4,"General Mills","Cinnamon Toast Crunch Cereal, 23.6 oz",4.48,34,4.7
+"cereal","2015-11-28",5,"Great Value","Great Value Raisin Bran Cereal, 20 Oz",2.24,71,4.6
+"cereal","2015-11-28",6,"General Mills","Reese's Puffs Cereal, 28.2 oz",4.48,19,4.6
+"cereal","2015-11-28",7,"Kellogg's","Kellogg's Original Frosted Mini Wheats Cereal, 36 oz",4.58,46,4.9
+"cereal","2015-11-28",8,"Kellogg's","Kellogg's Froot Loops Cereal, 26 oz",4.58,61,4.8
+"cereal","2015-11-28",9,"Kellogg's","Kellogg's Rice Krispies Cereal, 24 oz",3.98,59,4.9
+"cereal","2015-11-28",10,"Great Value","Great Value Crunchy Honey Oats Cereal With Almonds, 18 oz",2.24,59,4.3
+"cereal","2015-11-28",11,"Kellogg's","Kellogg's Raisin Bran Crunch Cereal, 24.8 oz",3.68,31,4.7
+"cereal","2015-11-28",12,"General Mills","Lucky Charms Cereal, 25.1 oz",4.48,104,4.8
+"cereal","2015-11-28",13,"Post","Post Shredded Wheat Original Spoon Size Cereal, 16.4 oz",2.48,0,0.0
+"cereal","2015-11-28",14,"Great Value","Great Value Cinnamon Crunch Cereal, 17 Oz",2.5,33,3.3
+"cereal","2015-11-28",15,"Kellogg's","Kellogg's Corn Flakes Cereal, 24 oz",3.68,46,4.7
+"cereal","2015-11-28",16,"Cheerios","Multi Grain Cheerios Gluten Free Cereal, 18 oz",3.98,16,4.8
+"cereal","2015-11-28",17,"Kix","Kix Cereal, 12 oz",2.98,11,4.6
+"cereal","2015-11-28",18,"Cheerios","Honey Nut Cheerios Gluten Free Cereal, 12.25 oz",2.98,203,4.8
+"cereal","2015-11-28",19,"Post","Post Fruity Pebbles Cereal, 20.5 oz",3.5,22,4.3
+"cereal","2015-11-28",20,"General Mills","Fiber One Protein Cranberry Almond Cereal, 15.8 oz",3.74,11,4.3
+"cold+cereal","2015-11-28",1,"Sunbelt","Sunbelt Fruit & Nut w/Raisins, Dates & Almonds Granola Cereal, 16 oz",2.82,17,4.8
+"cold+cereal","2015-11-28",2,"Cheerios","Honey Nut Cheerios Gluten Free Cereal, 26.6 oz",4.48,203,4.8
+"cold+cereal","2015-11-28",3,"Kellogg's","Kellogg's Apple Jacks Cereal, 21.7 oz",3.98,51,4.6
+"cold+cereal","2015-11-28",4,"Great Value","Great Value Raisin Bran Cereal, 20 Oz",2.24,71,4.6
+"cold+cereal","2015-11-28",5,"Cheerios","Cheerios Gluten Free Cereal, 18 oz",3.52,185,4.8
+"cold+cereal","2015-11-28",6,"Kellogg's","Kellogg's Rice Krispies Cereal, 24 oz",3.98,59,4.9
+"cold+cereal","2015-11-28",7,"Cheerios","Honey Nut Cheerios Gluten Free Cereal, 12.25 oz",2.98,203,4.8
+"cold+cereal","2015-11-28",8,"Kellogg's","Kellogg's Froot Loops Cereal, 21.7 oz",3.98,61,4.8
+"cold+cereal","2015-11-28",9,"Great Value","Great Value Toasted Whole Grain Oat Cereal, 18 Oz",2.74,41,4.4
+"cold+cereal","2015-11-28",10,"Great Value","Great Value Cinnamon Crunch Cereal, 17 Oz",2.5,33,3.3
+"cold+cereal","2015-11-28",11,"Kellogg's","Kellogg's Original Special K Cereal, 18 oz",3.98,123,4.8
+"cold+cereal","2015-11-28",12,"Kix","Kix Cereal, 12 oz",2.98,11,4.6
+"cold+cereal","2015-11-28",13,"Great Value","Great Value Toasted Rice Cereal, 12.8 Oz",2.42,16,4.8
+"cold+cereal","2015-11-28",14,"Post","Post Shredded Wheat Original Spoon Size Cereal, 16.4 oz",2.48,0,0.0
+"cold+cereal","2015-11-28",15,"Kellogg's","Kellogg's Corn Flakes Cereal, 24 oz",3.68,46,4.7
+"cold+cereal","2015-11-28",16,"Fiber One","Fiber One Honey Clusters Cereal, 14.25 oz",3.74,25,4.7
+"cold+cereal","2015-11-28",17,"Great Value","Great Value Frosted Shredded Wheat Cereal, 24 Oz",2.98,31,4.4
+"cold+cereal","2015-11-28",18,"Fiber One","Fiber One Original Cereal, 16.2 oz",3.74,49,4.7
+"cold+cereal","2015-11-28",19,"Post","Post Shredded Wheat Original Cereal, 15 oz",2.48,21,5.0
+"cold+cereal","2015-11-28",20,"Kellogg's","Kellogg's Special K Chocolatey Delight Cereal, 16.5 oz",5.76,45,4.9
