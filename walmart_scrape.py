@@ -55,6 +55,8 @@ def build_dict(page_soup, ranking):
         product["brand"] = "General Mills"
     elif "Cinnamon Toast Crunch" in product["name"]:
         product["brand"] = "General Mills"
+    elif "Fiber One" in product["name"]:
+        product["brand"] = "Generall Mills"
     else:
         brand = page_soup.find('span', attrs={'itemprop':'brand'}).string
         product["brand"] = brand.encode('ascii','replace')
