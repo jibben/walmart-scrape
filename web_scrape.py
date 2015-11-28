@@ -10,26 +10,26 @@ import csv
 
 # providing a variable with the base URL such that if the IP were to change it
 # would remain easy to scrape website info
-BASE_URL = "http://www.walmart.com/search/?query="
+BASE_URL = "http://www.walmart.com"
 
 # function to return a soup from a base and a query
 def getQuerySoup(base, query):
-    url = urllib2.urlopen(base + query)
+    url = urllib2.urlopen(base + "/search/?query=" + query)
     soup = bs4.BeautifulSoup(url.read(), "html.parser")
     return soup
 
 # function to return a soup from a base and page link
-def getPageSoup(base, link):
-    url = urllib2.urlopen(base + urllib2.quote(link.get('href')))
+def get_page_soup(base, link):
+    url = urllib2.urlopen(base + link)
     soup = bs4.BeautifulSoup(url.read(), "html.parser")
     return soup
 
 # function to build dictionary for single page
-def buildDict(page_soup, ranking):
+def build_dict(page_soup, ranking):
     product = {}
 
     # get adContextJSON from page
-    script = cheerios_soup.find("script", attrs={'id':'tb-djs-wml-base'})
+    script = page_soup.find("script", attrs={'id':'tb-djs-wml-base'})
     ad_context = re.search('(?<=\"adContextJSON\": ){.*}', script.string)
     ad_json = json.loads(ad_context.group(0))
 
@@ -45,38 +45,58 @@ def buildDict(page_soup, ranking):
     # get brand
     product["brand"] = ad_json["brand"].encode('ascii','replace')
 
-    # get review info
-    reviews = re.search('\d+ reviews \| \d.\d out of 5', page_soup.get_text())
-    review_text = reviews.group(0).split()
-    product["num_reviews"] = int(review_text[0])
-    product["rating"] = float(review_text[3])
+    # get review info, first check if reviews exist
+    no_reviews = page_soup.find("p", attrs={'class':'zero-reviews-summary'})
+    if(no_reviews):
+        product["num_reviews"] = 0
+        product["rating"] = 0.0
+    else:
+        reviews = page_soup.find('div', attrs={'class':'Grid-col u-size-1-2 stars stars-large pull-left hide-content display-inline-block-m'})
+        review_text = reviews.find('p', attrs={'class':'heading-e'}).string
+        review_text = review_text.split()
+        product["num_reviews"] = int(review_text[0])
+        product["rating"] = float(review_text[3])
 
     return product
 
 # function to build list from all page dictionaries
-def buildList(soup):
+def build_list(soup):
+    # initialize list to hold products
+    product_list = []
 
-    return cereal_list
+    # get all products from page
+    products = soup.find_all('h4', attrs={'class':'tile-heading'})
+
+    # for each product, find url, get info, add to list
+    rank = 1
+    for prod in products:
+        url = prod.find('a').get('href')
+        prod_soup = get_page_soup(BASE_URL, url)
+        prod_info = build_dict(prod_soup, rank)
+        product_list.append(prod_info)
+        rank += 1
+
+    return product_list
 
 # function to write given list of dicts to CSV
 def listToCSV(list, fieldnames, filename):
+    # send a traceback if number of items in dicts != number of field names
     if(len(list[0]) != len(fieldnames)):
         raise ValueError('Number of fieldnames != Number of items in dict')
 
+    # write to file with DictWriter
     with open(filename, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
         writer.writeheader()
         for product in list:
             writer.writerow(product)
 
-# main dictionary to hold data
-#searches = {}
+def main():
+    # first do cereal
+    cereal_soup = getQuerySoup(BASE_URL, "cereal")
 
-# first do cereal
-# cereal_soup = getQuerySoup(BASE_URL, "cereal")
+    output = build_list(cereal_soup)
 
-#url = urllib2.urlopen("http://www.walmart.com/ip/Honey-Nut-Cheerios-Gluten-Free-Cereal-26.6-oz/25847978")
-file = open('cheerios.html')
-cheerios_soup = bs4.BeautifulSoup(file.read(), "html.parser")
-cheerios = buildDict(cheerios_soup, 1)
-print cheerios
+    print(output)
+
+main()
