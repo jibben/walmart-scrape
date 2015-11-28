@@ -7,6 +7,7 @@ import json
 import bs4
 import re
 import csv
+import pprint
 
 # providing a variable with the base URL such that if the IP were to change it
 # would remain easy to scrape website info
@@ -43,7 +44,24 @@ def build_dict(page_soup, ranking):
     product["price"] = float(ad_json["price"])
 
     # get brand
-    product["brand"] = ad_json["brand"].encode('ascii','replace')
+    # the data on walmart webpage is bad, so we have to try to
+    # manually find the actual brand within the name of the product
+    # and only if that fails will we try to scrape it from the page
+    if "Kellogg's" in product["name"]:
+        product["brand"] = "Kellogg's"
+    elif "Post" in product["name"]:
+        product["brand"] = "Post"
+    elif "Kashi" in product["name"]:
+        product["brand"] = "Kashi"
+    elif "Cheerios" in product["name"]:
+        product["brand"] = "Cheerios"
+    elif "Lucky Charms" in product["name"]:
+        product["brand"] = "General Mills"
+    elif "Cinnamon Toast Crunch" in product["name"]:
+        product["brand"] = "General Mills"
+    else:
+        brand = page_soup.find('span', attrs={'itemprop':'brand'}).string
+        product["brand"] = brand.encode('ascii','replace')
 
     # get review info, first check if reviews exist
     no_reviews = page_soup.find("p", attrs={'class':'zero-reviews-summary'})
@@ -97,6 +115,6 @@ def main():
 
     output = build_list(cereal_soup)
 
-    print(output)
+    pprint.pprint(output)
 
 main()
