@@ -1,20 +1,22 @@
 # Created by Jibben Hillen
 # For L2 code test
-# 2015-11-27
+# 2015-11-28
 
-import urllib2
-import json
-import bs4
-import re
-import csv
-import pprint
+import urllib2              # to construct url file-like objects
+import json                 # to interpret json
+import bs4                  # for BeautifulSoup to scrape easier
+import re                   # regex parsing html
+import csv                  # to write output at csv
+import os.path              # to check if file exists for writing output
+from datetime import date   # to put date on output
+import sys                  # to get command line inputs
 
-# providing a variable with the base URL such that if the IP were to change it
-# would remain easy to scrape website info
 BASE_URL = "http://www.walmart.com"
+FIELDS = ["query", "date", "ranking", "brand", "name",
+          "price", "num_reviews", "rating"]
 
 # function to return a soup from a base and a query
-def getQuerySoup(base, query):
+def get_query_soup(base, query):
     url = urllib2.urlopen(base + "/search/?query=" + query)
     soup = bs4.BeautifulSoup(url.read(), "html.parser")
     return soup
@@ -78,7 +80,7 @@ def build_dict(page_soup, ranking):
     return product
 
 # function to build list from all page dictionaries
-def build_list(soup):
+def build_list(soup, query):
     # initialize list to hold products
     product_list = []
 
@@ -91,30 +93,64 @@ def build_list(soup):
         url = prod.find('a').get('href')
         prod_soup = get_page_soup(BASE_URL, url)
         prod_info = build_dict(prod_soup, rank)
+        prod_info["query"] = query
+        prod_info["date"] = date.today().strftime("%Y-%m-%d")
         product_list.append(prod_info)
         rank += 1
 
     return product_list
 
 # function to write given list of dicts to CSV
-def listToCSV(list, fieldnames, filename):
+def list_to_CSV(list, fieldnames, filename):
     # send a traceback if number of items in dicts != number of field names
     if(len(list[0]) != len(fieldnames)):
         raise ValueError('Number of fieldnames != Number of items in dict')
 
+    # create flag whether to write header (only if new file)
+    # we will assume that any previous files will have been made by this program
+    if(not os.path.isfile(filename)):
+        write_header = True
+    else:
+        write_header = False
+
     # write to file with DictWriter
-    with open(filename, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
-        writer.writeheader()
+    with open(filename, 'a') as f:
+        writer = csv.DictWriter(f, fieldnames = fieldnames,
+                                quoting=csv.QUOTE_NONNUMERIC)
+
+        if(write_header):
+            writer.writeheader()
+
         for product in list:
             writer.writerow(product)
 
 def main():
-    # first do cereal
-    cereal_soup = getQuerySoup(BASE_URL, "cereal")
 
-    output = build_list(cereal_soup)
+    # get number of searches, if usage incorrect print and exit
+    num_args = len(sys.argv)
+    # if no additional arguments are given, pretend as if the following are:
+    # walmart_scrape.py cereal cold+cereal walmart.csv
+    if(num_args == 1):
+        # first do for cereal
+        soup = get_query_soup(BASE_URL, "cereal")
+        products = build_list(soup, "cereal")
+        list_to_CSV(products, FIELDS, "walmart.csv")
 
-    pprint.pprint(output)
+        # then for cold cereal
+        soup = get_quert_soup(BASE_URL, "cold+cereal")
+        products = build_list(soup, "cold+cereal")
+        list_to_CSV(products, FIELDS, "walmart.csv")
+
+    elif(num_args == 2):
+        print("Usage: " + sys.argv[0] + " <keyword>" +
+              " <additional keywords> ... <output filename>")
+        exit()
+
+    else:
+        # for every search given, do scraping and add to CSV given
+        for i in range(0,num_args - 2):
+            soup = get_query_soup(BASE_URL, sys.argv[i+1])
+            products = build_list(soup, sys.argv[i+1])
+            list_to_CSV(products, FIELDS, sys.argv[num_args-1])
 
 main()
